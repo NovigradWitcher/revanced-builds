@@ -44,6 +44,13 @@ jobs:
           if [ -z "$TAG" ]; then TAG=0; fi
           echo "NEXT_VER_CODE=$((TAG + 1))" >> $GITHUB_OUTPUT
 
+      - name: Prepare config file
+        run: |
+          cp config.toml config.template.toml
+          envsubst < config.template.toml > config.toml
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+
       - name: Build modules/APKs
         run: if [ -f "config.json" ]; then ./build.sh config.json; else ./build.sh config.toml; fi
         env:
@@ -110,24 +117,22 @@ jobs:
       - name: Report to Telegram
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT: ${{ secrets.TG_CHAT_ID }}
         if: env.TG_TOKEN != null
         run: |
           cd build || { echo "build folder not found"; exit 1; }
-
-          TG_CHAT="@rvc_magisk"
           NL=$'\n'
           APKS=""
-          MODULES=""
+          FAILED_APPS=""
           for OUTPUT in *; do
             DL_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/download/${{ steps.next_ver_code.outputs.NEXT_VER_CODE }}/${OUTPUT}"
-            if [[ $OUTPUT = *.apk ]]; then
               APKS+="${NL}📦[${OUTPUT}](${DL_URL})"
-            elif [[ $OUTPUT = *.zip ]]; then
-              MODULES+="${NL}📦[${OUTPUT}](${DL_URL})"
-            fi
           done
-          MODULES=${MODULES#"$NL"}
           APKS=${APKS#"$NL"}
+
+          if [ -f ../failed_apps.log ]; then
+            FAILED_APPS=$(cat ../failed_apps.log | sed "s/^/↪ /")
+          fi
 
           BODY="$(sed 's/^\* \*\*/↪ \*\*/g; s/^\* `/↪ \*\*/g; s/`/\*/g; s/^\* /\↪/g; s/\*\*/\*/g; s/###//g; s/^- /↪ /g; /^==/d;' ../build.md)"
           MSG="*New build!*
@@ -135,8 +140,6 @@ jobs:
           ${BODY}
 
           *▼ Download Links:*
-          Modules:
-          ${MODULES}
 
           APKs:
           ${APKS}
