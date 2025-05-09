@@ -123,16 +123,11 @@ jobs:
           cd build || { echo "build folder not found"; exit 1; }
           NL=$'\n'
           APKS=""
-          FAILED_APPS=""
           for OUTPUT in *; do
             DL_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/download/${{ steps.next_ver_code.outputs.NEXT_VER_CODE }}/${OUTPUT}"
               APKS+="${NL}📦[${OUTPUT}](${DL_URL})"
           done
           APKS=${APKS#"$NL"}
-
-          if [ -f ../failed_apps.log ]; then
-            FAILED_APPS=$(cat ../failed_apps.log | sed "s/^/↪ /")
-          fi
 
           BODY="$(sed 's/^\* \*\*/↪ \*\*/g; s/^\* `/↪ \*\*/g; s/`/\*/g; s/^\* /\↪/g; s/\*\*/\*/g; s/###//g; s/^- /↪ /g; /^==/d;' ../build.md)"
           MSG="*New build!*
