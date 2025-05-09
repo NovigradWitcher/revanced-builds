@@ -1,0 +1,56 @@
+# File: .github/workflows/template-sync.yml
+name: Sync
+
+on:
+  # Monthly sync on the 1st of each month
+  schedule:
+    - cron: "0 0 1 * *"
+  # Manual trigger
+  workflow_dispatch:
+
+# Prevent multiple sync operations running simultaneously
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync with template repository
+        id: sync
+        uses: AndreasAugustin/actions-template-sync@v2
+        with:
+          source_gh_token: ${{ secrets.GITHUB_TOKEN }}
+          source_repo_path: j-hc/revanced-magisk-module
+          upstream_branch: main
+          pr_labels: sync,maintenance
+          pr_title: "chore: sync with template repository"
+          pr_body: |
+            This PR syncs changes from the template repository (j-hc/revanced-magisk-module).
+
+            ## Changes included:
+            - Updates to build scripts and workflows
+            - Configuration improvements
+            - Documentation updates
+
+            Please review these changes carefully before merging.
+
+      - name: Report sync status
+        if: always()
+        run: |
+          if [ "${{ steps.sync.outcome }}" == "success" ]; then
+            echo "✅ Template sync completed successfully"
+          else
+            echo "❌ Template sync failed or had no changes"
+          fi
