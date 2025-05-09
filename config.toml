@@ -31,7 +31,7 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
 uptodown-dlurl = "https://youtube-music.en.uptodown.com/android"
 arch = "arm64-v8a"
 excluded-patches = "'Spoof app version'"
-patcher-args = "-e 'Change package name' -OpackageName=com.heytap.music"
+patcher-args = "-e 'Change package name' -OpackageName=com.netease.cloudmusic"
 
 [YouTube]
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube/"
