@@ -48,7 +48,7 @@ jobs:
         run: |
           cp config.toml config.template.toml
           envsubst '${CLIENT_ID}' < config.template.toml > config.toml
-          env:
+        env:
             CLIENT_ID: ${{ secrets.CLIENT_ID }}
 
 
