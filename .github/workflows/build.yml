@@ -47,9 +47,10 @@ jobs:
       - name: Prepare config file
         run: |
           cp config.toml config.template.toml
-          envsubst < config.template.toml > config.toml
-        env:
-          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          envsubst '${CLIENT_ID}' < config.template.toml > config.toml
+          env:
+            CLIENT_ID: ${{ secrets.CLIENT_ID }}
+
 
       - name: Build modules/APKs
         run: if [ -f "config.json" ]; then ./build.sh config.json; else ./build.sh config.toml; fi
