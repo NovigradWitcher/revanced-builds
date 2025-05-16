@@ -58,7 +58,7 @@ arch = "arm64-v8a"
 [InfinityForRedditPlus]
 apkmirror-dlurl = "https://www.apkmirror.com/apk/docile-alligator/infinity-for-reddit-plus"
 arch = "arm64-v8a"
-patcher-args = "-e 'Spoof client' -Oclient-id=${CLIENT_ID}"
+patcher-args = "-e 'Spoof client' -Oclient-id=$CLIENT_ID"
 
 [Spotify]
 enabled = true
@@ -66,6 +66,13 @@ build-mode = "apk"
 arch = "arm64-v8a"
 uptodown-dlurl = "https://spotify.en.uptodown.com/android"
 patcher-args = "-e 'Custom theme' -ObackgroundColor=@android:color/black -OoverridePlayerGradientColor=true -ObackgroundColorSecondary=#FF121212 -OaccentColor=#FF1ED760 -OaccentColorPressed=#FF169C46"
+
+[Spotify-Mod]
+enabled = true
+build-mode = "apk"
+arch = "arm64-v8a"
+uptodown-dlurl = "https://spotify.en.uptodown.com/android"
+patcher-args = "-e 'Custom theme' -ObackgroundColor=@android:color/black -OoverridePlayerGradientColor=true -ObackgroundColorSecondary=#FF121212 -OaccentColor=#FF1ED760 -OaccentColorPressed=#FF169C46 'Change package name' -OpackageName=com.heytap.music"
 
 [Twitter]
 enabled = false
