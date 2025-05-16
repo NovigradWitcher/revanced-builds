@@ -44,18 +44,19 @@ jobs:
           if [ -z "$TAG" ]; then TAG=0; fi
           echo "NEXT_VER_CODE=$((TAG + 1))" >> $GITHUB_OUTPUT
 
-      - name: Prepare config file
-        run: |
-          cp config.toml config.template.toml
-          envsubst '${CLIENT_ID}' < config.template.toml > config.toml
-        env:
-            CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      # - name: Prepare config file
+      #   run: |
+      #     cp config.toml config.template.toml
+      #     envsubst '${CLIENT_ID}' < config.template.toml > config.toml
+      #   env:
+      #       CLIENT_ID: ${{ secrets.CLIENT_ID }}
 
 
       - name: Build modules/APKs
         run: if [ -f "config.json" ]; then ./build.sh config.json; else ./build.sh config.toml; fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
           GITHUB_REPOSITORY: $GITHUB_REPOSITORY
           NEXT_VER_CODE: ${{ steps.next_ver_code.outputs.NEXT_VER_CODE }}
 
