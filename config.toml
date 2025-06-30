@@ -12,7 +12,7 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/inc/app"
 apkmirror-dlurl = "https://apkmirror.com/apk/instagram/instagram-instagram/"
 uptodown-dlurl = "https://instagram.en.uptodown.com/android/"
 arch = "arm64-v8a"
-version="370.0.0.42.96"   
+version="378.0.0.52.68"
 patcher-args = "-e 'Change package name' -OpackageName=com.instagram.android.revanced"         
 
 [Music]
@@ -34,11 +34,12 @@ excluded-patches = "'Spoof app version'"
 patcher-args = "-e 'Change package name' -OpackageName=com.netease.cloudmusic"
 
 [YouTube]
+app-name = "Revanced Youtube"
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube/"
 uptodown-dlurl = "https://youtube.en.uptodown.com/android"
 
 [YouTube-Extended]
-app-name = "YouTube"
+app-name = "Revanced Extended"
 patches-source = "inotia00/revanced-patches"
 integrations-source = "inotia00/revanced-integrations"
 cli-source = "inotia00/revanced-cli"
@@ -67,15 +68,8 @@ arch = "arm64-v8a"
 uptodown-dlurl = "https://spotify.en.uptodown.com/android"
 patcher-args = "-e 'Custom theme' -ObackgroundColor=@android:color/black -OoverridePlayerGradientColor=true -ObackgroundColorSecondary=#FF121212 -OaccentColor=#FF1ED760 -OaccentColorPressed=#FF169C46"
 
-[Spotify-Mod]
-enabled = true
-build-mode = "apk"
-arch = "arm64-v8a"
-uptodown-dlurl = "https://spotify.en.uptodown.com/android"
-patcher-args = "-e 'Custom theme' -ObackgroundColor=@android:color/black -OoverridePlayerGradientColor=true -ObackgroundColorSecondary=#FF121212 -OaccentColor=#FF1ED760 -OaccentColorPressed=#FF169C46 'Change package name' -OpackageName=com.heytap.music"
-
 [Twitter]
-enabled = false
+enabled = true
 apkmirror-dlurl = "https://www.apkmirror.com/apk/x-corp/twitter"
 build-mode = "apk"
 dpi = "120-640dpi"
